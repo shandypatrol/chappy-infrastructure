@@ -1,0 +1,67 @@
+#!/bin/bash
+
+export DEBIAN_FRONTEND=noninteractive
+
+### PHP install ###################################################
+
+## Prerequisites
+
+apt-get -y -qq install libxml2-dev
+apt-get -y -qq install libssl-dev libsslcommon2-dev
+
+# Fetch it
+
+mkdir php-install
+cd php-install
+
+PHP_INSTALL_DIR="/var/lib/php7b2"
+PHP_VERSION="php-7.0.0beta2"
+PHP_TAR="$PHP_VERSION.tar.xz"
+PHP_DL_BASE="https://downloads.php.net/~ab/"
+PHP_DL_TAR="$PHP_DL_BASE$PHP_TAR"
+
+mkdir $PHP_INSTALL_DIR
+
+wget -nv $PHP_DL_TAR
+
+tar -xf $PHP_TAR
+
+./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu
+make
+make install
+
+ln -s $PHP_INSTALL_DIR/bin/php /usr/bin/php
+ln -s $PHP_INSTALL_DIR/bin/pecl /usr/bin/pecl
+ln -s $PHP_INSTALL_DIR/bin/phpize /usr/bin/phpize
+cd ..
+
+# Extensions
+apt-get -y -qq install libevent-dev
+
+### MySQL install ###################################################
+
+mkdir mysql-install
+cd mysql-install
+
+MYSQL_ROOT_PASSWORD=lZF^1*U9pX34>4S
+
+wget -nv http://dev.mysql.com/get/mysql-apt-config_0.3.5-1ubuntu14.04_all.deb
+dpkg -i mysql-apt-config_0.3.5-1ubuntu14.04_all.deb
+
+echo "mysql-server-5.6 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "mysql-server-5.6 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+apt-get -qq update
+apt-get -y -qq install mysql-server-5.6
+
+cd ..
+
+### Composer ###################################################
+
+COMPOSER_DIR=/var/lib/composer
+curl -sS http://getcomposer.org/installer | php
+mkdir $COMPOSER_DIR
+mv composer.phar $COMPOSER_DIR
+ln -s $COMPOSER_DIR/composer.phar /usr/bin/composer
+
+
+#rm -rf *-install

@@ -1,0 +1,25 @@
+{
+    "name": "shandypatrol/chappy-infrastructure",
+    "description": "Sample composer set up for testing against server installations. This is not a PHP package.",
+    "keywords": [
+        "chappy"
+    ],
+    "homepage": "https://github.com/shandypatrol/chappy-infrastructure",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andy Cook",
+            "email": "andrewcook1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.0",
+        "react/react": "^0.4.2",
+        "doctrine/orm": "^2.4.0",
+        "symfony/yaml": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^4.7.7"
+    }
+}

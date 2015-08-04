@@ -9,6 +9,7 @@ This repository is used to build Vagrant boxes for the Chappy project.
 
 First, ensure you have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed on your machine, which will be used for virtualisation.
 Our box(es) use this as a vagrant provider.
+Next, install [Vagrant](https://www.vagrantup.com/downloads.html).
 
 Each chappy repository should include a vagrant file. In the root of the repository, run
 

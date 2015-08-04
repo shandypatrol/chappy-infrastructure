@@ -69,7 +69,7 @@ echo "$MYSQL_PACKAGE mysql-server/root_password password $MYSQL_ROOT_PASSWORD" |
 echo "$MYSQL_PACKAGE mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 apt-get -qq install $MYSQL_PACKAGE
 
-mysql -u root --password=$MYSQL_ROOT_PASSWORD < $HOST_DIR/chappy_init.sql
+mysql -u root --password=$MYSQL_ROOT_PASSWORD < $HOST_DIR/mysql/chappy_init.sql
 
 cd ..
 

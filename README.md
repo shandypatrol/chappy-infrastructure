@@ -24,7 +24,8 @@ And you're done!
 vagrant ssh
 ```
 
-Vagrant will sync files in the repository available inside the VM, so changing files on . The vagrant file will describe which directory(s) map to where on the VM.
+Vagrant will sync files in the repository available inside the VM, so changes to files on your local machine will be available on the vagrant box automatically.
+The vagrant file will describe which directory(s) map to where on the VM.
 By default, the repository will be mapped at /vagrant.
 
 ## Making changes to boxes

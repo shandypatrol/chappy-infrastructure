@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
+HOST_DIR=/vagrant
 
 ### PHP install ###################################################
 
@@ -17,22 +18,25 @@ apt-get -y -qq install autoconf
 mkdir php-install
 cd php-install
 
-PHP_INSTALL_DIR="/var/lib/php5_6_11"
 PHP_VERSION="php-5.6.11"
+PHP_INSTALL_DIR="/var/lib/$PHP_VERSION"
 PHP_TAR="$PHP_VERSION.tar.xz"
 PHP_DL="http://uk1.php.net/get/$PHP_VERSION.tar.xz/from/this/mirror"
+PHP_INI_FILE=/etc/php.ini
+PHP_INI_DIR=/etc/php.d
 
 mkdir $PHP_INSTALL_DIR
-mkdir /etc/php.d
+mkdir $PHP_INI_DIR
 
 wget -nv $PHP_DL -O $PHP_TAR
 
 tar -xf $PHP_TAR
 
-./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=/etc/php.ini --with-config-file-scan-dir=/etc/php.d
+./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=$PHP_INI_FILE --with-config-file-scan-dir=/etc/php.d
 make
 make install
 
+cp ./$PHP_VERSION/php.ini-development $PHP_INI_FILE
 ln -s $PHP_INSTALL_DIR/bin/php /usr/bin/php
 ln -s $PHP_INSTALL_DIR/bin/pecl /usr/bin/pecl
 ln -s $PHP_INSTALL_DIR/bin/phpize /usr/bin/phpize
@@ -54,17 +58,18 @@ echo "extension=ev.so" > /etc/php.d/ev.ini
 mkdir mysql-install
 cd mysql-install
 
-MYSQL_ROOT_PASSWORD=lZF^1*U9pX34>4S
+MYSQL_ROOT_PASSWORD=E28LpCrfJwMJwCS7
+MYSQL_PACKAGE=mysql-server-5.6
 
 wget -nv http://dev.mysql.com/get/mysql-apt-config_0.3.5-1ubuntu14.04_all.deb
 dpkg -i mysql-apt-config_0.3.5-1ubuntu14.04_all.deb
 
-echo "mysql-server-5.6 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
-echo "mysql-server-5.6 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 apt-get -qq update
-apt-get -y -qq install mysql-server-5.6
+echo "$MYSQL_PACKAGE mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "$MYSQL_PACKAGE mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+apt-get -qq install $MYSQL_PACKAGE
 
-# TODO: chappy database
+mysql -u root --password=$MYSQL_ROOT_PASSWORD < $HOST_DIR/chappy_init.sql
 
 cd ..
 
@@ -77,4 +82,4 @@ mv composer.phar $COMPOSER_DIR
 ln -s $COMPOSER_DIR/composer.phar /usr/bin/composer
 
 
-#rm -rf *-install
+rm -rf *-install

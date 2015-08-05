@@ -32,7 +32,7 @@ wget -nv $PHP_DL -O $PHP_TAR
 
 tar -xf $PHP_TAR
 
-./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=$PHP_INI_FILE --with-config-file-scan-dir=/etc/php.d
+./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=$PHP_INI_FILE --with-config-file-scan-dir=/etc/php.d --enable-zip --with-pdo-mysql
 make
 make install
 
@@ -51,6 +51,10 @@ echo "extension=libevent.so" > /etc/php.d/libevent.ini
 # libev
 yes '' | pecl install ev
 echo "extension=ev.so" > /etc/php.d/ev.ini
+
+# xdebug
+yes '' | pecl install xdebug
+echo "zend_extension=$PHP_INSTALL_DIR/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /etc/php.d/xdebug.ini
 
 
 ### MySQL install ###################################################
@@ -80,6 +84,10 @@ curl -sS http://getcomposer.org/installer | php
 mkdir $COMPOSER_DIR
 mv composer.phar $COMPOSER_DIR
 ln -s $COMPOSER_DIR/composer.phar /usr/bin/composer
+
+### Git ###################################################
+apt-get -y -qq install git
+
 
 
 rm -rf *-install

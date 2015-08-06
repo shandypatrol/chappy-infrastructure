@@ -32,7 +32,7 @@ wget -nv $PHP_DL -O $PHP_TAR
 
 tar -xf $PHP_TAR
 
-./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=$PHP_INI_FILE --with-config-file-scan-dir=/etc/php.d --enable-zip --with-pdo-mysql
+./$PHP_VERSION/configure --prefix=$PHP_INSTALL_DIR --with-openssl --with-libdir=/lib/x86_64-linux-gnu --with-config-file-path=$PHP_INI_FILE --with-config-file-scan-dir=/etc/php.d --enable-zip --with-pdo-mysql --with-curl
 make
 make install
 

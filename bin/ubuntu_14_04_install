@@ -12,6 +12,7 @@ apt-get update
 apt-get -y -qq install libxml2-dev
 apt-get -y -qq install libssl-dev libsslcommon2-dev
 apt-get -y -qq install autoconf
+apt-get -y -qq install libcurl4-openssl-dev
 
 # Fetch it
 

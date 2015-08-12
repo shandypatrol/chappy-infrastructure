@@ -1,0 +1,3 @@
+[submodule "chappy"]
+	path = chappy
+	url = https://github.com/shandypatrol/chappy.git
